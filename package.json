@@ -1,0 +1,23 @@
+{
+  "name": "tmux-terminal",
+  "main": "./lib/tmux-terminal",
+  "version": "0.0.1",
+  "description": "A short description of your package",
+  "activationCommands": {
+    "atom-workspace": [
+      "tmux-terminal:send-window-contents",
+      "tmux-terminal:send-selection",
+      "tmux-terminal:send-custom-command",
+      "tmux-terminal:send-custom-command-with-position",
+      "tmux-terminal:send-break",
+      "tmux-terminal:send-redo"
+    ]
+  },
+  "repository": "https://github.com/atom/tmux-terminal",
+  "license": "MIT",
+  "engines": {
+    "atom": ">=0.174.0 <2.0.0"
+  },
+  "dependencies": {
+  }
+}
