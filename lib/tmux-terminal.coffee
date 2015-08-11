@@ -19,10 +19,14 @@ module.exports =
       child.spawnSync('tmux', ['send-keys', '-l', selection.getText()])
 
   sendCommand: (lineNumbers = false) ->
-    homeTmux = process.env["HOME"] + "/.atom_tmux"
+    homeTmux = atom.getConfigDirPath() + "/atom_tmux"
     projectTmux = atom.project.getDirectories()[0].getPath() + "/.atom_tmux"
 
-    args = [atom.workspace.getActiveTextEditor().getPath()]
+    args = [
+      JSON.stringify(atom.project.getDirectories().map (e) -> e.getPath()),
+      JSON.stringify(atom.workspace.getActiveTextEditor().getPath())
+    ]
+
     if lineNumbers
       sel = atom.workspace.getActiveTextEditor().getLastCursor().getBufferPosition()
       args.push(sel.row + 1, sel.column + 1)
@@ -34,7 +38,13 @@ module.exports =
     else
       JSON.stringfy([args[0]])
 
-    result = JSON.parse(result)
+    try
+      result = JSON.parse(result)
+    catch e
+      atom.notifications.addError('Error running commmand', detail:
+        "tmux-terminal has received a invalid JSON\n \nReturn:\n#{result}")
+      return
+
     result.unshift('send-keys')
     result.unshift('-l')
     child.spawnSync('tmux', result)
