@@ -36,7 +36,7 @@ module.exports =
     else if fs.existsSync(homeTmux)
       child.spawnSync(homeTmux, args).stdout.toString()
     else
-      JSON.stringfy([args[0]])
+      JSON.stringify([args[0]])
 
     try
       result = JSON.parse(result)
